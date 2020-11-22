@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.dinegri.kafka.connect.smt</groupId>
+	<artifactId>kafka-connect-smt-schema-filter</artifactId>
+	<version>1.0.0</version>
+	<description>Filter by Schema</description>
+	<url>https://github.com/dinegri/kafka-connect-smt-schema-filter</url>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<mockito.version>2.6.3</mockito.version>
+		<kafka.version>2.3.0</kafka.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>connect-api</artifactId>
+			<version>${kafka.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>connect-transforms</artifactId>
+			<version>${kafka.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-connect-maven-plugin</artifactId>
+				<version>0.11.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>kafka-connect</goal>
+						</goals>
+						<configuration>
+							<ownerUsername>dinegri</ownerUsername>
+							<sourceUrl>none</sourceUrl>
+							<componentTypes>
+								<componentType>transform</componentType>
+							</componentTypes>
+							<tags>
+								<tag>transform</tag>
+								<tag>field</tag>
+								<tag>topic</tag>
+							</tags>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
