@@ -22,6 +22,7 @@ import org.apache.kafka.connect.transforms.Transformation;
 import org.apache.kafka.connect.transforms.util.SimpleConfig;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class SchemaFilter<R extends ConnectRecord<R>> implements Transformation<R> {
 
@@ -57,17 +58,18 @@ public class SchemaFilter<R extends ConnectRecord<R>> implements Transformation<
         boolean hasKeyConfigured = !keySchema.isEmpty();
         boolean hasValueConfigured = !valueSchema.isEmpty();
 
-        String keySchemaName = record.keySchema() != null ? record.keySchema().name() : "";
-        String valueSchemaName = record.valueSchema() != null ? record.valueSchema().name() : "";
+        String keySchemaName = Optional.ofNullable(record.keySchema()).map(r -> r.name()).orElse("");
+        String valueSchemaName = Optional.ofNullable(record.valueSchema()).map(r -> r.name()).orElse("");
 
         R result = null;
 
-        if (hasKeyConfigured && hasValueConfigured) {
-            result = keySchemaName.equals(keySchema) && valueSchemaName.equals(valueSchema) ? record : null;
-        } else if (hasKeyConfigured) {
-            result = keySchemaName.equals(keySchema) ? record : null;
-        } else if (hasValueConfigured) {
-            result = valueSchemaName.equals(valueSchema) ? record : null;
+        if (hasKeyConfigured && hasValueConfigured &&
+                keySchemaName.equals(keySchema) && valueSchemaName.equals(valueSchema)) {
+            result = record;
+        } else if (hasKeyConfigured && keySchemaName.equals(keySchema)) {
+            result = record;
+        } else if (hasValueConfigured && valueSchemaName.equals(valueSchema) ) {
+            result = record;
         }
 
         return result;
