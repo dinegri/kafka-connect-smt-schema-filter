@@ -66,7 +66,7 @@ public class SchemaFilter<R extends ConnectRecord<R>> implements Transformation<
             result = keySchemaName.equals(keySchema) && valueSchemaName.equals(valueSchema) ? record : null;
         } else if (hasKeyConfigured) {
             result = keySchemaName.equals(keySchema) ? record : null;
-        } if (hasValueConfigured) {
+        } else if (hasValueConfigured) {
             result = valueSchemaName.equals(valueSchema) ? record : null;
         }
 
